@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>输入关键词弹出内容</title>
+</head>
+
+<body>
+    <input type="text" id="userInput" placeholder="输入关键词">
+    <button onclick="showContent()">确认</button>
+    <div id="result"></div>
+
+    <script>
+        // 预设关键词和对应内容
+        const contentMap = {
+            "岭南师范学院": "账号：LNSFXY01 ； 密码：ladmin",
+            "罗定职业技术学院": "账号：LDZYJSXY01 ； 密码：ladmin",
+            "contact": "联系我们：support@example.com",
+            '佛山大学': '账号：fosuedu ； 密码：123456',
+            // 可继续添加更多关键词
+        };
+
+        function showContent() {
+            const input = document.getElementById("userInput").value.toLowerCase();
+            const resultDiv = document.getElementById("result");
+
+            if (contentMap[input]) {
+                resultDiv.innerHTML = contentMap[input];
+            } else {
+                resultDiv.innerHTML = "未找到相关内容！";
+            }
+        }
+    </script>
+</body>
+
+</html>
