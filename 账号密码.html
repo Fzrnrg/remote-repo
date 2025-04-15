@@ -3,12 +3,111 @@
 
 <head>
     <title>输入关键词弹出内容</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* 容器样式 */
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+            max-width: 90%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 标题样式 */
+        h1 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* 输入框样式 */
+        input[type="text"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        /* 按钮样式 */
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* 结果框样式 */
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            opacity: 0;
+            transition: opacity 0.5s ease, border-color 0.3s ease;
+        }
+
+        #result.show {
+            opacity: 1;
+        }
+
+        #result.error {
+            border-color: #ff4d4d;
+            color: #ff4d4d;
+        }
+    </style>
 </head>
 
 <body>
-    <input type="text" id="userInput" placeholder="输入关键词">
-    <button onclick="showContent()">确认</button>
-    <div id="result"></div>
+    <div class="container">
+        <h1>输入关键词弹出内容</h1>
+        <input type="text" id="userInput" placeholder="请输入关键词">
+        <button onclick="showContent()">确认</button>
+        <div id="result"></div>
+    </div>
 
     <script>
         // 预设关键词和对应内容
@@ -20,16 +119,29 @@
             // 可继续添加更多关键词
         };
 
+        // 显示内容的函数
         function showContent() {
-            const input = document.getElementById("userInput").value.toLowerCase();
+            const input = document.getElementById("userInput").value.trim().toLowerCase();
             const resultDiv = document.getElementById("result");
 
+            // 清空之前的样式
+            resultDiv.classList.remove("show", "error");
+
             if (contentMap[input]) {
-                resultDiv.innerHTML = contentMap[input];
+                resultDiv.textContent = contentMap[input];
+                resultDiv.classList.add("show");
             } else {
-                resultDiv.innerHTML = "未找到相关内容！";
+                resultDiv.textContent = "未找到相关内容！";
+                resultDiv.classList.add("show", "error");
             }
         }
+
+        // 监听输入框的回车键事件
+        document.getElementById("userInput").addEventListener("keydown", function (event) {
+            if (event.keyCode === 13) { // 13 是回车键的 keyCode
+                showContent();
+            }
+        });
     </script>
 </body>
 
